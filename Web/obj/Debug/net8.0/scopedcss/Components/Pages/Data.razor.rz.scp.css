@@ -1,0 +1,29 @@
+#th_Name[b-jrsnr79661]{
+    border: 1px solid #000000;
+}
+#th_Email[b-jrsnr79661]{
+    border: 1px solid #000000;
+}
+#th_Password[b-jrsnr79661]{
+    border: 1px solid #000000;
+}
+#th_Download[b-jrsnr79661]{
+    border: 1px solid #000000;
+}
+
+.nameCell[b-jrsnr79661]{
+    border: 1px solid #000000;
+}
+.emailCell[b-jrsnr79661]{
+    border: 1px solid #000000;
+}
+.passwordCell[b-jrsnr79661]{
+    border: 1px solid #000000;
+}
+.downloadCell[b-jrsnr79661], .indexCell[b-jrsnr79661]{
+    border: 1px solid #000000;
+}
+
+tr:nth-child(even)[b-jrsnr79661]{
+    background-color: #E9F0EC;
+}

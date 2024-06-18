@@ -1,0 +1,29 @@
+#th_Name{
+    border: 1px solid #000000;
+}
+#th_Email{
+    border: 1px solid #000000;
+}
+#th_Password{
+    border: 1px solid #000000;
+}
+#th_Download{
+    border: 1px solid #000000;
+}
+
+.nameCell{
+    border: 1px solid #000000;
+}
+.emailCell{
+    border: 1px solid #000000;
+}
+.passwordCell{
+    border: 1px solid #000000;
+}
+.downloadCell, .indexCell{
+    border: 1px solid #000000;
+}
+
+tr:nth-child(even){
+    background-color: #E9F0EC;
+}

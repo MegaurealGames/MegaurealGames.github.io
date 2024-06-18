@@ -1,0 +1,131 @@
+@page "/chat"
+@rendermode InteractiveServer
+
+<PageTitle>Chat</PageTitle>
+
+<style>
+    #canvas{
+        width: 50%;
+    }
+    .me_when, .me_what, .other_what, .other_when, .other_who{
+        list-style: none;
+        display: flex;
+    }
+    .me_when, .me_what{
+        background-color: rgb(73, 198, 125);
+    }
+    .me_what{
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+    .me_when{
+        border-bottom-left-radius: 20px;
+        text-align: right;
+    }
+    .me_what b, .me_when b{
+        color: rgb(73, 198, 125);
+    }
+    .other_what, .other_when, .other_who{
+        background-color: #d4d2c8;
+    }
+    .other_who{
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+    .other_who b {
+        color: #d4d2c8;
+    }
+    .other_when{
+        border-bottom-right-radius: 20px;
+    }
+</style>
+
+<label for="usuario">Usuario  :</label><input type="text" id="usuario"@bind="user"><br>
+<label for="contraseña">Contraseña  :</label><input type="password" id="contraseña" @bind="password"><br>
+<button @onclick="Iniciar">Iniciar</button>
+
+@if(Active!=null){
+    <div id="canvas">
+        <p>Welcome!!</p>
+        <ul>
+            @foreach(var i in messages)
+            {
+                @if(i.quien.name==Active.name)
+                {
+                    <li class="me_what"><b>..</b>    @i.que</li>
+                    <li class="me_when">@i.date<b>..</b></li>
+                }
+                else{
+                    <li class="other_who"><b>..</b>@i.quien.name</li>
+                    <li class="other_what">@i.que</li>
+                    <li class="other_when">@i.date</li>
+                }
+                <br>
+            }
+        </ul>
+        
+        <footer>
+            <input type="text" id="mensaje" @bind="texto_enviar"><button @onclick="Enviar">Enviar</button>
+            @if(admin){
+                <br><button @onclick="Clear">Clear</button><br><p>@messages.Count</p>
+            }
+        </footer>
+    </div>
+}
+
+
+@code{
+    private string? user{get; set;}
+    private string? password{get; set;}
+    public Data.Person? Active{get; set;}
+    public bool admin;
+    public static List<Message> messages = new List<Message>();
+    public string? texto_enviar;
+
+    private void Iniciar(MouseEventArgs e)
+    {
+        foreach(var i in Data.persons)
+        {
+            if(user==i.name&&password==i.password)
+            {
+                Active=i;
+                admin=false;
+            }
+        }
+        if(user=="Aureal_Entertainment"&&password=="Aureal_user")
+        {
+            Active= new Data.Person("Aureal_Entertainment", "aureal", "Aureal_user");
+            admin=true;
+        }
+    }
+    public void publicar(Data.Person? who, string? what)
+    {
+        Message toadd= new Message(who, what);
+        messages.Add(toadd);
+
+        texto_enviar="";
+    }
+    public class Message{
+        public Data.Person? quien;
+        public string? que;
+        public DateTime date;
+
+        public Message(Data.Person? who, string? what)
+        {
+            this.quien=who;
+            this.que=what;
+            this.date=DateTime.Now;
+        }
+    }
+    private void Enviar(MouseEventArgs e)
+    {
+        if(texto_enviar!=null)
+        {
+            publicar(Active, texto_enviar);
+        }
+    }
+    private void Clear(MouseEventArgs e)
+    {
+        messages.Clear();
+    }
+}

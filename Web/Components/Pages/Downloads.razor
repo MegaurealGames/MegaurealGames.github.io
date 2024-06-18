@@ -1,0 +1,40 @@
+@page "/downloads"
+@rendermode InteractiveServer
+@using System.IO
+@inject IJSRuntime JS
+
+<PageTitle>Downloads</PageTitle>
+
+<h1>Downloads</h1>
+
+<button @onclick="DownloadFileFromURL">
+    Download File From URL
+</button>
+<button @onclick="DownloadFileFromStream">
+    Download File from stream
+</button>
+@code {
+    private async Task DownloadFileFromURL()
+    {
+        var fileName = "quote.txt";
+        var fileURL = "/files/quote.txt";
+        await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
+    }
+    private Stream GetFileStream()
+    {
+        var randomBinaryData = new byte[50 * 1024];
+        var fileStream = new MemoryStream(randomBinaryData);
+
+        return fileStream;
+    }
+
+    private async Task DownloadFileFromStream()
+    {
+        var fileStream = GetFileStream();
+        var fileName = "quote.txt";
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+}

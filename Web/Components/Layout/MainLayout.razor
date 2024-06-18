@@ -1,0 +1,72 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            @if(user==null)
+            {
+                <img src="User.png" width="35" href="create_account" @onclick="LogIn">
+                <p>null</p>
+                if(show)
+                {
+                    <a href="Create_account">Hola</a>
+                }
+            }
+            @if(user!=null)
+            {
+                <img src="User.png" width="35" @onclick="HayCuenta">
+                @* <p>!null</p> *@
+            }
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+@code {
+    public Pages.Data.Person? user;
+    public bool show;
+    private void HayCuenta(MouseEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+    public void logIn(string? a, string? b, string? c)
+    {
+        //el codigo da error: Se requiere una referencia de objeto para el campo, método o propiedad 'MainLayout.user' no estáticos
+        //user = new Pages.Data.Person(a, b, c);
+    }
+    private void LogIn(MouseEventArgs e)
+    {
+        show=true;
+    }
+}    using Web.Components.Pages;
+
+#line default
+#line hidden
+#nullable disable
+    using Web.Components.Pages;
+
+#line default
+#line hidden
+#nullable disable
+    using Microsoft.AspNetCore.Mvc;
+
+#line default
+#line hidden
+#nullable disable
+    using Microsoft.AspNetCore.Mvc;
+
+#line default
+#line hidden
+#nullable disable

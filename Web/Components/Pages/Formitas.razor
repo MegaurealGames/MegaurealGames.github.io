@@ -1,0 +1,29 @@
+@page "/juegos-online/formitas"
+@rendermode InteractiveServer
+
+<PageTitle>Formitas</PageTitle>
+<style>
+    #card {
+        width: 150px;
+        height: 150px;
+        background-color: #3498DB;
+        margin: 80px;
+        z-index: 10;
+    }
+    #card:active {
+        background-color: red;
+    }
+    #card:hover{
+        transform: translate(212px, 0px);
+    }
+</style>
+<head>
+    <h1>Formitas</h1>
+</head>
+<body>
+    <div id="card"></div>
+</body>
+
+@code{
+    
+}

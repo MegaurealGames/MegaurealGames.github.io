@@ -1,0 +1,136 @@
+@page "/data"
+@rendermode InteractiveServer
+@using System.Runtime.InteropServices
+
+<PageTitle>Data</PageTitle>
+
+<h1>Data</h1>
+
+<p><strong>Log in</strong></p><br>
+<label for="singin_user">User</label><input type="text" id="singin_user" @bind="user"><br>
+<label for="singin_pasword">Pasword</label><input type="password" id="singin_pasword" @bind="pasword"><br>
+<button @onclick="IsAdmin">Log in</button>
+
+
+
+@if(admin)
+{
+    if(IsWasm)
+    {
+        <p>WebAssembly</p>
+    }
+    else
+    {
+        <p>Server</p>
+    }
+}
+<table>
+    <tr>
+        <th>Index</th>
+        <th id="th_Name">Name</th>
+        <th id="th_Email">Email</th>
+        <th id="th_Password">Password</th>
+        <th id="th_Download">Download</th>
+    </tr>
+    @if(persons!=null&&admin)
+    {
+        int index=0;
+        @foreach(var person in Data.persons)
+        {
+            <tr>
+                <td class="indexCell">@index</td>
+                <td class="nameCell">@person.concat("name")</td>
+                <td class="emailCell">@person.concat("email")</td>
+                <td class="passwordCell">@person.concat("pass")</td>
+                <td class="downloadCell">@person.concat("downloads")</td>
+            </tr>
+            index++;
+        }
+    }
+</table>
+@if(persons!=null&&admin)
+{
+    <footer>
+        <input type="number" @bind="a_eliminar">
+        <button @onclick="Eliminar">Eliminar</button>
+    </footer>
+}
+
+<!--comentario-->
+<!--<p>@admin<br>@user<br>@pasword</p>-->
+
+@code {
+    //comentario
+    public static List<Person> persons = new List<Person>();
+    
+    
+
+    public bool IsWasm => RuntimeInformation.OSDescription == "Browser";
+
+    private string? user;
+    private string? pasword;
+    bool admin;
+    public int a_eliminar;
+    public static void AddPerson(string? a, string? b, string? c)
+    {
+        bool coincide=false;
+        foreach(var i in persons)
+        {
+            if(i.email==b)
+            {
+                coincide=true;
+            }
+        }
+        if(!coincide)
+        {
+            persons.Add(new Person(a, b, c));
+        }
+        else
+        {
+            throw new Exception();
+        }
+        
+    }
+    public void IsAdmin()
+    {
+        if(user=="Aureal_Entertainment"&&pasword=="Aureal_user")
+        {
+            admin=true;
+        }
+    }
+    public class Person
+    {
+        public string? name{get; set;}
+        public string? email{get; set;}
+        public string? password{get; set;}
+        public bool beta_scrapcial_descargada{get; set;}
+
+        public Person(string? a, string? b, string? c)
+        {
+            this.name=a;
+            this.email=b;
+            this.password=c;
+        }
+        public string concat(string wat)
+        {
+            switch(wat)
+            {
+                case "name":
+                    return $"{this.name}";
+                case "email":
+                    return $"{this.email}";
+                case "downloads":
+                    return $"{this.beta_scrapcial_descargada}";
+                case "pass":
+                    return $"{this.password}";
+                default:
+                    return "Error";
+            }
+        }
+    }
+    public void Eliminar()
+    {
+        persons.RemoveAt(a_eliminar);
+        a_eliminar=0;
+    }
+}
